@@ -1,30 +1,38 @@
-# DevOps Crypto Pipeline
+## 📄 README.md - DevOps Pipeline: Kryptovalutaanalys (AF10)
 
-Detta projekt är en enkel crypto-applikation som hämtar prisdata från CoinGecko API och visar den i en webapp.
+Detta projekt implementerar en **DevOps CI/CD-pipeline** för en Python/Streamlit-baserad webbapplikation. Applikationen hanterar kryptovalutadata och bygger på min **individuella pipeline-implementering** på branchen **`AF10`**.
 
-## Syfte
+### 1. ⚙️ Teknisk Översikt
 
-- Öva på Git och GitHub
-- Bygga upp en mappstruktur för ett Python-projekt
-- Förbereda en DevOps-pipeline (tester, build, deploy)
-- Hämta data från ett externt API (CoinGecko)
+| Komponent | Teknik | Status i Pipeline |
+| :--- | :--- | :--- |
+| **Applikation** | Python / Streamlit | Körs lokalt via `streamlit run app/app.py`. |
+| **CI/CD-plattform** | GitHub Actions | Flödet körs vid `push` till `AF10`. |
+| **Containerisering** | Docker | Image pushas till Docker Hub: `abbbbe/devops-crypto-app`. |
+| **Kvalitetssäkring** | Pytest | Tester körs som en kvalitetsspärr. |
 
-## Teknisk översikt
+### 2. 🛠️ Kom igång (Lokal Körning)
 
-- Språk: Python
-- API: CoinGecko
-- Struktur:
-  - `src/webapp/app.py` – startpunkt för applikationen (webbgränssnitt)
-  - `src/webapp/crypto_api.py` – funktioner för att hämta data från CoinGecko
-  - `src/webapp/constants.py` – konstanter, t.ex. valda kryptovalutor
-  - `src/webapp/utils.py` – hjälpfunktioner för att bearbeta data
-  - `src/tests/test_crypto_api.py` – tester för API-funktionerna
+Följ dessa steg för att köra applikationen lokalt (från projektets rotkatalog):
 
-## Pipeline-idé (kort)
+1.  **Aktivera Virtuell Miljö:** `source venv/bin/activate`
+2.  **Installera Dependencies:** `pip install -r requirements.txt`
+3.  **Kör Applikationen:** `streamlit run app/app.py`
+    *(Obs: Felsökning av imports kräver kommandot `python -m app.app`)*
 
-1. När kod pushas till GitHub:
-   - Kör testerna i `src/tests/`
-2. Om testerna går igenom:
-   - Bygg applikationen (t.ex. docker-image i ett senare steg)
-3. (Senare) Deploy till moln (t.ex. Azure).
-# trigger run
+### 3. 🚀 CI/CD Pipeline (AF10)
+
+Pipelinen **`AF10_pipeline.yml`** har en **sekventiell** struktur för att säkerställa kvalitet och spårbarhet.
+
+| Jobb | Syfte | Logik |
+| :--- | :--- | :--- |
+| **1. tests** | Kör Unit- och Integrationstester. | Avbryter pipelinen vid fel. |
+| **2. build** | Bygger Docker-imagen och pushar till Docker Hub. | **Körs endast om** `tests` är **godkänt** (`needs: tests`). |
+| **3. deploy** | Simulerad distribution till Azure App Service. | **Körs endast om** `build` är **godkänt** (`needs: build`). |
+
+### 4. 🔗 Viktiga Länkar (Inlämning)
+
+* **Branch för inlämning:** [Länk till din AF10-branch]
+* **Workflow-fil:** [Länk till din AF10_pipeline.yml-fil]
+* **Deployad Applikation (Mål):** `https://af10-devops-crypto.azurewebsites.net`
+    *(**Viktigt:** Denna länk är fiktiv och representerar det tänkta deploy-målet. Distributionen är **simulerad** i pipelinen.)*
